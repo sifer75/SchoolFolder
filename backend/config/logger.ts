@@ -2,7 +2,25 @@ import env from '#start/env'
 import app from '@adonisjs/core/services/app'
 import { defineConfig, targets } from '@adonisjs/core/logger'
 
-const loggerConfig = defineConfig({
+// ici même problème que dans le fichier auth.ts, je suis obligé de caster le type LoggerConfigType car je n'arrive pas à inférer le type exact retourné par loggerConfig, à changer
+
+export type AppLoggerConfig = {
+  enabled: true
+  name: string | undefined
+  level: string
+  transport: {
+    targets: any[]
+  }
+}
+
+type LoggerConfigType = {
+  default: 'app'
+  loggers: {
+    app: AppLoggerConfig
+  }
+}
+
+const loggerConfig: LoggerConfigType = defineConfig({
   default: 'app',
 
   /**
@@ -16,8 +34,8 @@ const loggerConfig = defineConfig({
       level: env.get('LOG_LEVEL'),
       transport: {
         targets: targets()
+          .pushIf(!app.inProduction, targets.file({ destination: 1 }))
           .pushIf(!app.inProduction, targets.pretty())
-          .pushIf(app.inProduction, targets.file({ destination: 1 }))
           .toArray(),
       },
     },

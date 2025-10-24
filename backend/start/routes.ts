@@ -17,3 +17,7 @@ router.put('/folder/:id', [FoldersController, 'UpdateFolder'])
 
 router.post('/card', [CardsController, 'CreateCard'])
 router.put('/card/:id', [CardsController, 'UpdateCard'])
+
+router.get('/', async () => {
+  return { hello: 'world' }
+})

@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+.tiptap-editor {
+  border: 1px solid #ccc;
+  padding: 10px;
+  min-height: 100px;
+  background-color: white;
+  border-radius: 8px;
+}
+
+.tiptap-editor:focus-visible {
+  outline: none;
+  border-color: #3b82f6; /* blue-500 */
+}
+
+.tiptap-editor p {
+  margin: 0;
+}
+
+.tiptap-editor strong {
+  font-weight: bold;
+}
+
+.tiptap-editor em {
+  font-style: italic;
+}
+
+.tiptap-editor ul {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+.tiptap-editor ol {
+  list-style-type: decimal;
+  margin-left: 20px;
+}
+
+.tiptap-editor pre {
+  background: #282a36; /* This is the Dracula background color */
+  color: #f8f8f2; /* This is a light text color that works well with the dark background */
+  font-family: "JetBrainsMono", monospace; /* This is a popular coding font */
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.tiptap-editor pre code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.8rem;
+}

@@ -1,6 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
 import type { Authenticators } from '@adonisjs/auth/types'
+import { WebGuardContract } from '#config/auth'
 
 /**
  * Guest middleware is used to deny access to routes that should
@@ -20,8 +21,10 @@ export default class GuestMiddleware {
     next: NextFn,
     options: { guards?: (keyof Authenticators)[] } = {}
   ) {
-    for (let guard of options.guards || [ctx.auth.defaultGuard]) {
-      if (await ctx.auth.use(guard).check()) {
+    for (let guardName of options.guards || [ctx.auth.defaultGuard]) {
+      const guard = ctx.auth.use(guardName) as WebGuardContract
+      // ici même problème que dans le fichier auth.ts, je suis obligé de caster le type WebGuardContract car je n'arrive pas à inférer le type exact retourné par ctx.auth.use(guard)
+      if (await guard.check()) {
         return ctx.response.redirect(this.redirectTo, true)
       }
     }
