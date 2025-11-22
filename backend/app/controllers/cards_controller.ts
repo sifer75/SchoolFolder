@@ -32,4 +32,16 @@ export default class CardsController {
       return response.status(500).json({ e: 'Impossible de modifier la carte' })
     }
   }
+
+  async GetAllCardsFromFolder({ params, response }: HttpContext) {
+    try {
+      const folderId = params.id
+      const cards = await Card.query().where('folder_id', folderId)
+      console.log(cards, 'cards fetched')
+      return response.status(200).json(cards)
+    } catch (e) {
+      console.log(e, 'error')
+      return response.status(500).json({ e: 'Impossible de récupérer les cartes' })
+    }
+  }
 }

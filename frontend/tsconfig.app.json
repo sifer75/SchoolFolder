@@ -9,7 +9,9 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "#models/*": ["../backend/app/models/*"]
+      "#models/*": ["../backend/app/models/*"],
+      "@/*": ["./src/*"],
+      "#types": ["./src/types/api.d.ts"]
     },
 
     /* Bundler mode */

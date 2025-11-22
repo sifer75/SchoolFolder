@@ -11,24 +11,27 @@ export default class Folder extends BaseModel {
   declare name: string
 
   @column()
-  declare parentId: number | null
+  declare parentId?: number | null
+
+  @column()
+  declare collectionNumber?: number
 
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt?: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt?: DateTime
 
   @hasMany(() => Card)
-  declare cards: HasMany<typeof Card>
+  declare cards?: HasMany<typeof Card>
 
   @belongsTo(() => Folder, {
     foreignKey: 'parentId',
   })
-  declare parent: BelongsTo<typeof Folder>
+  declare parent?: BelongsTo<typeof Folder>
 
   @hasMany(() => Folder, {
     foreignKey: 'parentId',
   })
-  declare Folders: HasMany<typeof Folder>
+  declare folders?: HasMany<typeof Folder>
 }

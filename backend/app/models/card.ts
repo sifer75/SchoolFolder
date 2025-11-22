@@ -14,13 +14,13 @@ export default class Card extends BaseModel {
   declare folderId: number
 
   @column()
-  declare content: any
+  declare content?: any | null
 
   @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
+  declare createdAt?: DateTime
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime
+  declare updatedAt?: DateTime
 
   @belongsTo(() => Folder, {
     foreignKey: 'folderId',

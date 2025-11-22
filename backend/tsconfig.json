@@ -1,10 +1,13 @@
 {
   "extends": "@adonisjs/tsconfig/tsconfig.app.json",
   "compilerOptions": {
-        "declaration": true,
-            "emitDeclarationOnly": false,
-
+    "declaration": true,
+    "emitDeclarationOnly": true,
     "rootDir": "./",
-    "outDir": "./build"
-  }
+    "outDir": "./build",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["app/models/**/*.ts"]
 }

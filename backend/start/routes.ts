@@ -14,10 +14,8 @@ import router from '@adonisjs/core/services/router'
 router.post('/folder', [FoldersController, 'CreateFolder'])
 router.get('/folders', [FoldersController, 'GetAllFolders'])
 router.put('/folder/:id', [FoldersController, 'UpdateFolder'])
+router.get('/folder/cards/:id', [FoldersController, 'GetNumberOfCardsInFolder'])
 
 router.post('/card', [CardsController, 'CreateCard'])
 router.put('/card/:id', [CardsController, 'UpdateCard'])
-
-router.get('/', async () => {
-  return { hello: 'world' }
-})
+router.get('/folder/:id', [CardsController, 'GetAllCardsFromFolder'])

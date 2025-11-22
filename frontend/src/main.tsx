@@ -21,11 +21,11 @@ const router = createBrowserRouter([
         element: <Homepage id="App__sectionContainer" />,
       },
       {
-        path: "/section/:id",
+        path: "/folder/:id",
         element: <SectionCards id="App__sectionCards" />,
       },
       {
-        path: "/section/:id/edition",
+        path: "/folder/:id/edition",
         element: <Edition id="App__edition" />,
       },
     ],

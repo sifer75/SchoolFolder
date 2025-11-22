@@ -7,7 +7,9 @@ export default class FoldersController {
       const data = request.only(['name', 'parent_id'])
       const folder = new Folder()
       folder.name = data.name
-      folder.parentId = data.parent_id
+      if (data.parent_id !== undefined && data.parent_id !== null) {
+        folder.parentId = data.parent_id
+      }
       await folder.save()
       return response.status(201).json(folder)
     } catch (e) {
@@ -18,11 +20,12 @@ export default class FoldersController {
 
   async GetAllFolders({ response }: HttpContext) {
     try {
+      console.log('Fetching folders...')
       const folders = await Folder.query()
         .whereNull('parentId') // Ne récupérer que les dossiers racines
-        .preload('Folders', (query) => {
+        .preload('folders', (query: any) => {
           query.preload('cards') // Précharger les cartes pour les sous-dossiers
-          query.preload('Folders', (subQuery) => {
+          query.preload('folders', (subQuery: any) => {
             subQuery.preload('cards') // Précharger les cartes pour les sous-sous-dossiers
             // Vous pouvez ajouter d'autres niveaux de preload ici si nécessaire
           })
@@ -48,6 +51,39 @@ export default class FoldersController {
     } catch (e) {
       console.log(e, 'error')
       return response.status(500).json({ e: 'Impossible de modifier le dossier' })
+    }
+  }
+
+  async GetNumberOfCardsInFolder({ params, response }: HttpContext) {
+    async function countCards(folderId: number): Promise<number> {
+      const folder = await Folder.query()
+        .where('id', folderId)
+        .preload('cards')
+        .preload('folders')
+        .firstOrFail()
+
+      if (!folder || !folder.cards || !folder.folders || folder.folders.length === 0) {
+        return 0
+      }
+      let total = folder.cards.length | 0
+
+      console.log(folder, 'folder fetched for counting cards')
+
+      for (const subFolder of folder.folders) {
+        console.log(subFolder.id, 'subfolder')
+        total += await countCards(subFolder.id)
+      }
+
+      return total
+    }
+    try {
+      const totalCards = await countCards(params.id)
+      return totalCards
+    } catch (e) {
+      console.log(e, 'error')
+      return response
+        .status(500)
+        .json({ e: 'Impossible de récupérer le nombre de cartes dans le dossier' })
     }
   }
 }

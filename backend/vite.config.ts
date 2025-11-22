@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import adonisjs from '@adonisjs/vite/client'
+import path from 'node:path'
 
 export default defineConfig({
   plugins: [
@@ -16,4 +17,10 @@ export default defineConfig({
       reload: ['resources/views/**/*.edge'],
     }),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '../frontend/src'),
+      '#models': path.resolve(__dirname, './app/models'),
+    },
+  },
 })

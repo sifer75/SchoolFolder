@@ -10,7 +10,8 @@
     "paths": {
       "@backend/*": ["../backend/build/*"],
       "@/*": ["./src/*"],
-      "#models/*": ["../backend/app/models/*"]
+      "#models/*": ["../backend/app/models/*"],
+      "@shared/*": ["../shared/*"]
     }
   }
 }

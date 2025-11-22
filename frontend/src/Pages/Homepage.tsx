@@ -1,10 +1,13 @@
-import Section, { type SectionProps } from "../components/Section";
+import { useTypedQuery } from "@/hooks/useTypedQuery";
+import Folder from "../components/Folder";
+import type { FolderType } from "../types/FolderType";
+import { useQuery } from "@tanstack/react-query";
 
 interface HomepageProps {
   id: string;
 }
 
-const sections: SectionProps[] = [
+const sectionss = [
   {
     id: "section1",
     name: "Section 1",
@@ -55,6 +58,21 @@ const sections: SectionProps[] = [
 ];
 
 function Homepage({ id }: HomepageProps) {
+  const { data: folders } = useTypedQuery<FolderType[]>(
+    ["getSections"],
+    async () => {
+      const response = await fetch("http://localhost:3333/folders", {
+        credentials: "include",
+      });
+      if (!response.ok)
+        throw new Error("Erreur lors du chargement des dossiers");
+
+      return response.json();
+    },
+  );
+
+  console.log(folders, "sectionss");
+
   return (
     <div
       id={`Homepage__container__${id}`}
@@ -68,15 +86,17 @@ function Homepage({ id }: HomepageProps) {
           id={`Homepage__section__container__${id}`}
           className="flex flex-col gap-10"
         >
-          {sections.map((section) => (
-            <Section
-              id={`Homepage__section__${section.id}`}
-              key={section.id}
-              name={section.name}
-              collectionNumber={section.collectionNumber}
-              children={section.children}
-            />
-          ))}
+          {folders &&
+            folders.map((folder: FolderType) => (
+              <Folder
+                id={folder.id}
+                key={folder.id}
+                name={folder.name}
+                cards={folder.cards}
+                folders={folder.folders} 
+                collectionNumber={folder.collectionNumber}
+              />
+            ))}
         </div>
       </div>
     </div>

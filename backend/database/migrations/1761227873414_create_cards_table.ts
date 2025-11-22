@@ -12,11 +12,11 @@ export default class extends BaseSchema {
         .unsigned()
         .references('id')
         .inTable('folders')
-        .notNullable()
+        .nullable()
         .onDelete('CASCADE')
-      table.json('content').notNullable()
-      table.timestamp('created_at')
-      table.timestamp('updated_at')
+      table.json('content').nullable()
+      table.timestamp('created_at').nullable()
+      table.timestamp('updated_at').nullable()
     })
   }
 

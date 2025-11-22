@@ -14,8 +14,15 @@ export default class extends BaseSchema {
         .inTable('folders')
         .onDelete('CASCADE')
         .nullable()
-      table.timestamp('created_at')
-      table.timestamp('updated_at')
+      table
+        .integer('collection_number')
+        .references('id')
+        .inTable('folders')
+        .onDelete('CASCADE')
+        .nullable()
+      table.timestamp('created_at').nullable()
+
+      table.timestamp('updated_at').nullable()
     })
   }
 
